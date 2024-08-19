@@ -9,6 +9,7 @@ export function UserPainel() {
 
     function handleLogout()  {
         persistor.purge();
+        document.cookie = 'refresh_token=; Max-Age=0; path=/;';
         localStorage.removeItem('user');
         location.reload();
     }
@@ -36,7 +37,7 @@ export function UserPainel() {
                         <Link href={'/next-home'}>Home Next</Link>
                     </li>
                     <li>
-                        <Link href={'/'}>Amigos</Link>
+                        <Link href={'/profile/friends'}>Amigos</Link>
                     </li>
                     <li>
                         <button onClick={handleLogout}>Sair</button>

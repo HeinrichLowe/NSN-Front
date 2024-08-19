@@ -2,13 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export type UserState = {
     tokenInfo: {
-        token: string,
-        exp: string
+        access_token: string,
+        access_exp: string
     },
     userInfo: {
+        id: string,
         username: string,
         name: string,
         avatar: string,
+        cover: string,
         email: string,
         birthday: string
     }
@@ -18,13 +20,15 @@ const slice = createSlice({
     name: 'user',
     initialState: {
         tokenInfo: {
-            token: '',
-            exp: ''
+            access_token: '',
+            access_exp: ''
         },
         userInfo: {
+            id: '',
             username: '',
             name: '',
             avatar: '',
+            cover: '',
             email: '',
             birthday: ''
         }

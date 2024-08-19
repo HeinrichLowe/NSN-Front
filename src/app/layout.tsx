@@ -21,7 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} h-screen overflow-y-hidden`}>
         <MiddleLayout>
-          {children}
+          <div className="Site h-screen bg-transparent overflow-y-auto">
+            {children}
+          </div>
         </MiddleLayout>
       </body>
     </html>

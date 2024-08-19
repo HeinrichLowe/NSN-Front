@@ -8,7 +8,7 @@ export function Header() {
                     href={'/home'} 
                     className="px-5 py-2 flex justify-center items-center gap-1 rounded-full hover:bg-gray-200/75"
                 >
-                    <img src="images/miniLogo.png" alt="" className="max-h-5" />
+                    <img src="/images/miniLogo.png" alt="" className="max-h-5" />
                     <h1 className="font-medium">NSN</h1>
                 </Link>
             </div>

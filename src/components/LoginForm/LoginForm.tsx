@@ -2,47 +2,56 @@
 
 import { FormEvent, MouseEvent, useEffect, useState } from "react";
 import { accio } from "@/api/api";
-import { handleLoginError } from "@/utils/functions/errorHandling";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { setTokenInfo } from "@/redux/reducers/userReducer";
 import { useAppSelector } from "@/redux/hooks/useAppSelector";
+import SignUpForm from "../SignUpForm";
 
 export function LoginForm() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] =  useState<string>('');
+    const [modal, setModal] = useState(false);
     const router = useRouter();
     const dispatch = useDispatch();
     const { tokenInfo } = useAppSelector(state => state.user)
+
+    function toggleShowModal() {
+      if (!modal) {
+        setModal(true);
+      } else {
+        setModal(false);
+      };
+    };
 
     async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
     
         try {
-          const params = new URLSearchParams();
-          params.append('username', username);
-          params.append('password', password);
-          const response = await accio.post('/signin', params);
+          const params = {username, password};
+          const jsonParams = JSON.stringify(params);
+          const response = await accio.post('/signin', jsonParams);
 
           if (response.status === 200) {
-            //document.cookie = `access_token=${response.data.access_token}; path=/;`;
-            dispatch(setTokenInfo(response.data))
+            const { refresh_token, refresh_exp, access_token, access_exp } = response.data
+            const refreshExpInSeconds = Math.floor((refresh_exp * 1000 - Date.now()) / 1000);
+
+            document.cookie = `refresh_token=${refresh_token}; Max-Age=${refreshExpInSeconds}; path=/;`;
+            dispatch(setTokenInfo({ access_token, access_exp }));
 
             router.push('/home')
-          } else {
-            handleLoginError(response)
           }
-
         } catch (error: any) {}
       };
 
     function handleSignUpButton(e: MouseEvent<HTMLButtonElement>) {
       e.preventDefault();
+      toggleShowModal();
     }
 
     useEffect(() => {
-      if(tokenInfo.token !== '') {
+      if(tokenInfo.access_token && tokenInfo.access_token !== '') {
         router.push('/home');
       }
     }, [tokenInfo, router]);
@@ -87,6 +96,10 @@ export function LoginForm() {
               Create New Account
             </button>
           </form>
+
+          {modal &&
+            <SignUpForm modal={modal} toggleModal={toggleShowModal} />
+          }
         </div>
     );
 }
