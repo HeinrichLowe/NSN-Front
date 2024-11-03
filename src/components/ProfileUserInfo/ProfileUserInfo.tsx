@@ -28,7 +28,7 @@ export default function ProfileUserInfo() {
             </div>
 
             <div className="flex-1">
-                <h3 className="text-3xl font-bold">{userInfo.name}</h3>
+                <h3 className="text-3xl font-bold">{userInfo.full_name}</h3>
                 <Link 
                     href={'/profile/friends'} 
                     className="ml-1 text-gray-950/85 font-semibold hover:underline"

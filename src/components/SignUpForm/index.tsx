@@ -19,10 +19,10 @@ export default function SignUpForm({modal, toggleModal}: Props) {
     const [usernameEmail, setUsernameEmail] = useState('text');
     const [form, setForm] = useState({
         full_name: '',
-        username: '',
-        email: '',
+        username: '' as string | undefined,
+        email: '' as string | undefined,
         password: '',
-        birthday: ''
+        birth_date: ''
     });
 
     useEffect(() => {
@@ -51,20 +51,25 @@ export default function SignUpForm({modal, toggleModal}: Props) {
         e.preventDefault();
 
         try {
-            const jsonForm = JSON.stringify(form);
-            const response = await accio.post('/signup', jsonForm);
+            const formData = { ...form };
+            if (usernameEmail === 'text') {
+                delete formData.email;
+            } else {
+                delete formData.username;
+            }
 
-            console.log(jsonForm);
+            const jsonForm = JSON.stringify(formData);
+            const response = await accio.post('/signup', jsonForm);
 
             if (response.status === 201) {
                 const { refresh_token, refresh_exp, access_token, access_exp } = response.data
                 const refreshExpInSeconds = Math.floor((refresh_exp * 1000 - Date.now()) / 1000);
-    
+
                 document.cookie = `refresh_token=${refresh_token}; Max-Age=${refreshExpInSeconds}; path=/;`;
                 dispatch(setTokenInfo({ access_token, access_exp }));
-    
+
                 router.push('/home')
-              }
+            }
         } catch (err) {};
     };
 
@@ -123,8 +128,8 @@ export default function SignUpForm({modal, toggleModal}: Props) {
                         <input 
                             type="date"
                             name="birthday"
-                            value={form.birthday}
-                            onChange={e => setForm(prevForm => ({ ...prevForm, birthday: e.target.value }))}
+                            value={form.birth_date}
+                            onChange={e => setForm(prevForm => ({ ...prevForm, birth_date: e.target.value }))}
                             className="p-2 border-2 border-gray-300 rounded-md outline-none focus:border-blue-500"
                         />
                     </div>

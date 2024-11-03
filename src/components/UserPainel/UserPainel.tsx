@@ -25,7 +25,7 @@ export function UserPainel() {
                     />
                 </div>
                 <span className="text-xl font-medium">
-                    {userInfo.name}
+                    {userInfo.full_name}
                 </span>
             </Link>
 

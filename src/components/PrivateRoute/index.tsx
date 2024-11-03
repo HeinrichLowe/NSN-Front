@@ -31,7 +31,7 @@ export function PrivateRoute({ children }: {children: ReactNode}) {
                 });
 
                 if (response.status === 200) {
-                    dispatch(setUserInfo(response.data));
+                    dispatch(setUserInfo(response.data.attributes));
                 }
             } catch (error: any) {
                 if (error.response && error.response.status === 401 && (refresh_token !== undefined && refresh_token !== '')) {

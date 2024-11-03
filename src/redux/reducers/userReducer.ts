@@ -26,7 +26,7 @@ const slice = createSlice({
         userInfo: {
             id: '',
             username: '',
-            name: '',
+            full_name: '',
             avatar: '',
             cover: '',
             email: '',
