@@ -5,13 +5,15 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ### With docker:
 1- Rename the '.env.example' file to just '.env' and fill the fields with necessary informations.
 
-2- Run the docker-compose:
+2- Make sure the [back-end](https://github.com/HeinrichLowe/NSN-Back.git) is already running.
+
+3- Run the docker-compose:
 
 ```bash
 docker-compose up
 ```
 
-You can open [http://localhost:8000/ping](http://localhost:8000/ping) to verify if the server started correctly.
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
 ##
 
